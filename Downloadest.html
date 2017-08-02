@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html ng-app="myApp" ng-controller="myCtrl" lang="en">
+	<head>
+	  <title>Download Estimator</title>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1">
+	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="icon" href="test.png" type="image/png                                                                                                                                 " sizes="64x64">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		<style>
+		.noborder {
+			border:none!important;
+		}
+		#bt1:hover {
+			background-color:#343D4D!important;
+			font-weight:bold;
+		}
+		#bt2:hover {
+			background-color:#344d99!important;
+			font-weight:bold;
+		}
+		#bt3:hover {
+			background-color:#743D4D!important;
+			font-weight:bold;
+		}
+		#bt3-disabled{
+			background-color:#999999!important;
+		}
+		input[type='radio'] {
+			transform:scale(1.5);
+		}
+		</style>
+		<script>
+		function myFunction ()
+		{
+			//Input
+			var filesize = document.getElementById("mySize").value;
+			var downloadspeed = document.getElementById("mySpeed").value;
+			//Filesize Checks
+			if (document.getElementById("kb").checked)
+			filesize = filesize * 1;
+
+			if (document.getElementById("mb").checked)
+			filesize = filesize * 1024;
+
+			if (document.getElementById("gb").checked)
+			filesize = filesize * 1048576;
+
+			//Download Speed Checks
+			if (document.getElementById("kbs").checked)
+			downloadspeed = downloadspeed * 1;
+
+			if (document.getElementById("mbs").checked)
+			downloadspeed = downloadspeed * 1024;
+
+			if (document.getElementById("gbs").checked)
+			downloadspeed = downloadspeed * 1048576;
+
+			//Calculations
+			var result = filesize / downloadspeed;
+			var seconds = Math.round(result % 60);
+			var minutes = Math.round((result % 3600) / 60);
+			var hours = parseInt(result / 3600);
+			//Output
+			if(filesize == null , filesize == "")
+			{
+				alert("Please fill all fields");
+				return false;
+			}
+			if(downloadspeed == null, downloadspeed == "")
+			{
+				alert("Please fill all fields");
+				return false;
+			}
+			else
+			{
+				document.getElementById("output").value = "~ " + hours + " hours " + minutes +
+				" minutes " + seconds + " seconds";
+			}
+		}
+
+		function Timer()
+		{
+			var countdownTime = document.getElementById("output").value;
+			var filesize = document.getElementById("mySize").value;
+			var downloadspeed = document.getElementById("mySpeed").value;
+			//Filesize Checks
+			if (document.getElementById("kb").checked)
+			filesize = filesize * 1;
+
+			if (document.getElementById("mb").checked)
+			filesize = filesize * 1024;
+
+			if (document.getElementById("gb").checked)
+			filesize = filesize * 1048576;
+
+			//Download Speed Checks
+			if (document.getElementById("kbs").checked)
+			downloadspeed = downloadspeed * 1;
+
+			if (document.getElementById("mbs").checked)
+			downloadspeed = downloadspeed * 1024;
+
+			if (document.getElementById("gbs").checked)
+			downloadspeed = downloadspeed * 1048576;
+
+			var result = filesize / downloadspeed;
+			var now = 0;
+			var x = setInterval(function() {
+
+				//Calculations
+				now = now + 1;
+				var distance = result - now;
+				var second = Math.round(distance % 60);
+				var minute = Math.floor((distance % 3600) / 60);
+				var hour = parseInt	(distance / 3600);
+				document.getElementById("output2").value = "~ " + hour + " h " + minute +
+				" m " + second + " s " + "remain";
+
+				if(distance < 0) {
+					clearInterval(x);
+					document.getElementById("output2").value = "Finished";
+				}
+			}, 1000);
+			function endTimer()
+			{
+				return false;
+			}
+		}
+		</script>
+	</head>
+	<body style ="background-color:#333333">
+		<div class="container" style="background-color:#f2f2f2; padding-top:15px;margin-top:2em">
+				<!--Section for all information about the Estimate-->
+				<div class="text-center col-md-12" style="">
+					<table class="table table-bordered" style="background-color:white">
+						<td style = "background-color:#297045;color:White" colspan=2>
+							<h1 style="font-size:56px;text-shadow: 1px 2px 3px rgba(0,0,0,25);margin-top:-1px" align="center">Est!mate</h1>
+						</td>
+						<tr>
+							<!--Input information-->
+							<td><br>
+								<p style="font-size:27px"><b> Filesize: </b><br>
+									<input id="mySize" style="text-align:center" type ="text"></input>
+								</p>
+								<p style="font-size:27px"><b> Download Speed: </b><br>
+									<input id="mySpeed" style="text-align:center" type="text"></input>
+								</p>
+							</td>
+							<!--Radio Buttons-->
+							<td style="width:50%; font-size:17px">
+								<br>
+								<!--Sizes-->
+								<input id="kb" type="radio" name="filesize" >&nbsp;&nbsp;KB</input>
+								&nbsp;&nbsp;&nbsp;
+								<input id="mb" type="radio" name="filesize">&nbsp;&nbsp;MB</input>
+								&nbsp;&nbsp;&nbsp;
+								<input id="gb" type="radio" name="filesize" checked>&nbsp;&nbsp;GB</input>
+								&nbsp;&nbsp;&nbsp;
+							<!--End Sizes-->
+							<br><br><hr><br>
+							<!--Speeds-->
+							<input id="kbs" type="radio" name="speed" checked>&nbsp;&nbsp;KB/s</input>
+							&nbsp;&nbsp;&nbsp;
+							<input id="mbs" type="radio" name="speed">&nbsp;&nbsp;MB/s</input>
+							&nbsp;&nbsp;&nbsp;
+							<input id="gbs" type="radio" name="speed">&nbsp;&nbsp;GB/s</input>
+							&nbsp;&nbsp;&nbsp;
+							<!--End Speeds-->
+						</td>
+						<!--End Radio Buttons-->
+						</tr>
+						<tr>
+							<td>
+								<button id="bt1" style="background-color:#197045;width:100%" onclick="myFunction()">
+									<p style="margin-bottom:-2px;color:white;font-size:24px">Estimate Download</p>
+								</button>
+							</td>
+							<td>
+								<input id="output" style="width:100%;font-size:17px;padding-left:5px;height:2.5em" type ="text">
+							</input>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<button align="left" id="bt2" style="background-color:#197045;width:50%;margin-left:-5px;" onclick="Timer()">
+									<p style="margin-bottom:-2px;color:white;font-size:24px">Start Timer</p>
+								</button>
+								<button align="right" id="bt3" style="background-color:#197045;width:50%" onclick="Timer().endTimer()">
+									<p style="margin-bottom:-2px;color:#ffffff;font-size:24px">Clear Timer</p>
+								</button>
+							</td>
+							<td>
+								<input id="output2" style="width:100%;font-size:17px;padding-left:5px;height:2.5em" type="text">
+							</input>
+						</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+</html>
